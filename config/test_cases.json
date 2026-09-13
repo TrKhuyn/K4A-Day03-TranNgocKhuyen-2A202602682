@@ -1,0 +1,37 @@
+[
+  {
+    "id": "TC01",
+    "type": "direct_query",
+    "question": "Chào bạn, bạn có thể giới thiệu các chuyên khoa hiện có tại Bệnh viện Đa khoa Quốc tế Vinmec không?",
+    "expected_behavior": "Chatbot trả lời trực tiếp từ System Prompt về các chuyên khoa Vinmec, không cần gọi bất kỳ Tool nào.",
+    "complexity": "Low"
+  },
+  {
+    "id": "TC02",
+    "type": "single_tool_query",
+    "question": "Hãy tra cứu lịch làm việc của bác sĩ chuyên khoa Tim mạch tại Vinmec vào ngày mai.",
+    "expected_behavior": "Agent nhận diện nhu cầu tra cứu, tự động phát sinh Tool Call 'doctor_query' với chuyên khoa 'Tim mạch' và ngày cần kiểm tra.",
+    "complexity": "Medium"
+  },
+  {
+    "id": "TC03",
+    "type": "appointment_booking",
+    "question": "Tôi muốn đặt lịch khám với Bác sĩ Nguyễn Thị Lan, chuyên khoa Nhi, vào lúc 9 giờ sáng ngày 20/09/2026. Mã bệnh nhân của tôi là BN2026042.",
+    "expected_behavior": "Agent tự động phát sinh Tool Call 'book_appointment' với đúng thông tin: patient_id='BN2026042', doctor_name='Nguyễn Thị Lan', specialty='Nhi', datetime_str='2026-09-20 09:00'.",
+    "complexity": "Medium"
+  },
+  {
+    "id": "TC04",
+    "type": "multi_step_reasoning",
+    "question": "Tôi là bệnh nhân BN2026099, gần đây hay bị đau ngực và khó thở. Tôi cần gặp bác sĩ chuyên khoa Tim mạch sớm nhất có thể, bạn hãy tra cứu bác sĩ phù hợp đang có lịch trống và đặt lịch hẹn giúp tôi.",
+    "expected_behavior": "Agent thực hiện chuỗi suy luận ReAct đa bước: (1) Gọi Tool 'doctor_query' để tra cứu bác sĩ Tim mạch có lịch trống sớm nhất, (2) Dựa vào kết quả quan sát, tự động gọi Tool 'book_appointment' với thông tin bác sĩ và khung giờ phù hợp cho bệnh nhân BN2026099.",
+    "complexity": "High"
+  },
+  {
+    "id": "TC05",
+    "type": "edge_case_handling",
+    "question": "Tra cứu thông tin bệnh nhân có mã BN9999999.",
+    "expected_behavior": "Agent gọi Tool 'doctor_query' hoặc 'book_appointment', nhận kết quả NOT_FOUND do mã bệnh nhân không tồn tại trong hệ thống, và đưa ra phản hồi lịch sự thông báo không tìm thấy thông tin, đề nghị người dùng kiểm tra lại mã bệnh nhân mà không bịa đặt dữ liệu.",
+    "complexity": "Medium"
+  }
+]
